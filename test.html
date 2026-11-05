@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>용과 같이 8 (Like a Dragon: Infinite Wealth) 소개</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0d1117;
+            --bg-card: #161b22;
+            --bg-card-hover: #1f2633;
+            --primary-orange: #ff7b00;
+            --primary-cyan: #00d2ff;
+            --accent-gold: #ffd200;
+            --text-main: #f0f6fc;
+            --text-sub: #8b949e;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* 헤더 / 내비게이션 */
+        header {
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary-orange), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        nav a {
+            color: var(--text-sub);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary-cyan);
+        }
+
+        /* 히어로 캐러셀 섹션 */
+        .hero-carousel {
+            position: relative;
+            min-height: 580px;
+            overflow: hidden;
+            border-bottom: 2px solid var(--primary-orange);
+            background-color: var(--bg-main);
+        }
+
+        .carousel-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 580px;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 580px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out, transform 0.8s ease-out;
+            transform: scale(1.02);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            background: rgba(13, 17, 23, 0.8);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 123, 0, 0.35);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            animation: fadeInContent 0.8s ease-out;
+        }
+
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary-orange), #e52e71);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+            word-break: keep-all;
+        }
+
+        .hero-content p {
+            color: #d0d7de;
+            font-size: 1.05rem;
+            margin-bottom: 1.6rem;
+            word-break: keep-all;
+        }
+
+        .btn-main {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary-orange), var(--accent-gold));
+            color: #0d1117;
+            font-weight: 800;
+            padding: 0.75rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 123, 0, 0.4);
+        }
+
+        /* 캐러셀 좌우 컨트롤 버튼 */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(13, 17, 23, 0.65);
+            color: #f0f6fc;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary-orange);
+            color: #0d1117;
+            border-color: var(--primary-orange);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn {
+            left: 20px;
+        }
+
+        .next-btn {
+            right: 20px;
+        }
+
+        /* 캐러셀 인디케이터 (도트) */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            width: 32px;
+            background: var(--primary-orange);
+            box-shadow: 0 0 10px rgba(255, 123, 0, 0.6);
+        }
+
+        /* 컨테이너 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 3px;
+            background: var(--primary-cyan);
+            margin: 0.4rem auto 0;
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--text-sub);
+            font-size: 1rem;
+        }
+
+        /* 게임 개요 요약 */
+        .summary-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            align-items: center;
+        }
+
+        .summary-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 280px;
+        }
+
+        .summary-info {
+            padding: 2.5rem;
+        }
+
+        .info-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .info-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-list li span.label {
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .info-list li span.val {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        /* 주인공 카드 */
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .character-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-cyan);
+            background: var(--bg-card-hover);
+        }
+
+        .character-tag {
+            color: var(--primary-orange);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .character-card h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 0.4rem 0 1rem;
+        }
+
+        .character-card p {
+            color: #c9d1d9;
+            font-size: 0.95rem;
+            word-break: keep-all;
+        }
+
+        /* 게임 특징 그리드 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .feature-text {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .feature-text h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent-gold);
+        }
+
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            word-break: keep-all;
+        }
+
+        /* 푸터 */
+        footer {
+            background: #080b0f;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+        }
+
+        footer p {
+            margin-bottom: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .summary-card {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            .hero-content p {
+                font-size: 0.95rem;
+            }
+            .carousel-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            .prev-btn { left: 10px; }
+            .next-btn { right: 10px; }
+            .hero-carousel, .carousel-slide, .carousel-track {
+                min-height: 520px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 헤더 -->
+    <header>
+        <div class="logo">LIKE A DRAGON 8</div>
+        <nav>
+            <a href="#about">게임 개요</a>
+            <a href="#characters">더블 주인공</a>
+            <a href="#features">주요 시스템</a>
+        </nav>
+    </header>
+
+    <!-- 상단 히어로 캐러셀 섹션 -->
+    <section class="hero-carousel">
+        <div class="carousel-track">
+            <!-- 슬라이드 1: 메인 비주얼 -->
+            <div class="carousel-slide active" style="background-image: linear-gradient(180deg, rgba(13,17,23,0.3) 0%, rgba(13,17,23,0.95) 100%), url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/library_hero.jpg');">
+                <div class="hero-content">
+                    <span class="hero-badge">SEGA &middot; RYU GA GOTOKU STUDIO</span>
+                    <h1>용과 같이 8<br><span style="color: var(--accent-gold); font-size: 0.8em;">무한의 부 (Infinite Wealth)</span></h1>
+                    <p>다시 한번 밑바닥에서 일어서는 사나이 '카스가 이치반'과 인생의 마지막 사명을 짊어진 전설의 용 '키류 카즈마'가 펼치는 시리즈 최고 명작 드라마틱 RPG</p>
+                    <a href="#about" class="btn-main">작품 소개 살펴보기</a>
+                </div>
+            </div>
+
+            <!-- 슬라이드 2: 다이내믹 배틀 -->
+            <div class="carousel-slide" style="background-image: linear-gradient(180deg, rgba(13,17,23,0.3) 0%, rgba(13,17,23,0.95) 100%), url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/ss_499f5726ce4e8ec673b4fe6bc4309ba835f8e6c7.1920x1080.jpg');">
+                <div class="hero-content">
+                    <span class="hero-badge" style="background: linear-gradient(90deg, #00d2ff, #0072ff);">DYNAMIC RPG BATTLE</span>
+                    <h1>진화한 라이브 커맨드 RPG<br><span style="color: var(--primary-cyan); font-size: 0.8em;">거리와 위치가 승패를 가른다</span></h1>
+                    <p>턴제 커맨드와 실시간 이동의 완벽한 융합! 주변 사물과 동료 간의 연계 공격으로 더욱 호쾌하고 전략적인 배틀을 즐겨보세요.</p>
+                    <a href="#features" class="btn-main">전투 시스템 확인</a>
+                </div>
+            </div>
+
+            <!-- 슬라이드 3: 하와이 무대 탐험 -->
+            <div class="carousel-slide" style="background-image: linear-gradient(180deg, rgba(13,17,23,0.3) 0%, rgba(13,17,23,0.95) 100%), url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/ss_2b733dbd87ae652ae2ef5f31920a656c9a3dbb5e.1920x1080.jpg');">
+                <div class="hero-content">
+                    <span class="hero-badge" style="background: linear-gradient(90deg, #ffb300, #ff5722);">NEW STAGE</span>
+                    <h1>태평양을 건넌 새로운 무대<br><span style="color: var(--accent-gold); font-size: 0.8em;">하와이 호놀룰루 시티</span></h1>
+                    <p>와이키키 해변부터 번화가까지! 요코하마 이진쵸의 3배가 넘는 방대한 오픈 월드에서 새로운 모험과 만남이 시작됩니다.</p>
+                    <a href="#about" class="btn-main">무대 정보 살펴보기</a>
+                </div>
+            </div>
+
+            <!-- 슬라이드 4: 리조트 & 사이드 콘텐츠 -->
+            <div class="carousel-slide" style="background-image: linear-gradient(180deg, rgba(13,17,23,0.3) 0%, rgba(13,17,23,0.95) 100%), url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/ss_df88dcba5f2cf41e8c7c9453966023cf5c8f8ee9.1920x1080.jpg');">
+                <div class="hero-content">
+                    <span class="hero-badge" style="background: linear-gradient(90deg, #00e676, #00b0ff);">SPECIAL CONTENT</span>
+                    <h1>나만의 5성급 리조트 개척<br><span style="color: #69f0ae; font-size: 0.8em;">쿵덕쿵섬 & 야쿠몬 배틀</span></h1>
+                    <p>쓰레기 섬을 최고의 휴양지로 꾸미는 섬 개척 라이프부터 전설의 야쿠몬 마스터 도전까지 끝없는 즐길 거리를 제공합니다.</p>
+                    <a href="#features" class="btn-main">즐길 거리 알아보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 좌우 화살표 버튼 -->
+        <button class="carousel-btn prev-btn" id="prevSlide" aria-label="이전 슬라이드">&#10094;</button>
+        <button class="carousel-btn next-btn" id="nextSlide" aria-label="다음 슬라이드">&#10095;</button>
+
+        <!-- 하단 도트 인디케이터 -->
+        <div class="carousel-indicators" id="carouselIndicators">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- 게임 기본 정보 섹션 -->
+        <section id="about">
+            <div class="section-title">
+                <h2>게임 개요</h2>
+                <p>시리즈 최초로 일본을 벗어나 하와이로 무대를 확장한 스펙터클 대작</p>
+            </div>
+
+            <div class="summary-card">
+                <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/capsule_616x353.jpg" alt="용과 같이 8 메인 캡슐 아트">
+                <div class="summary-info">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary-cyan);">LIKE A DRAGON: INFINITE WEALTH</h3>
+                    <p style="color: #c9d1d9; font-size: 0.95rem; margin-bottom: 1rem;">
+                        어머니를 찾기 위해 하와이로 향한 카스가 이치반과, 비밀리에 특정 조직의 임무를 수행 중인 키류 카즈마가 운명처럼 조우하며 시작되는 거대한 이야기입니다.
+                    </p>
+                    <ul class="info-list">
+                        <li><span class="label">장르</span><span class="val">드라마틱 RPG</span></li>
+                        <li><span class="label">개발 / 배급</span><span class="val">용과 같이 스튜디오 / SEGA</span></li>
+                        <li><span class="label">주요 무대</span><span class="val">미국 하와이 호놀룰루, 요코하마</span></li>
+                        <li><span class="label">대응 플랫폼</span><span class="val">PC(Steam), PS5, PS4, Xbox Series</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 더블 주인공 섹션 -->
+        <section id="characters">
+            <div class="section-title">
+                <h2>더블 주인공</h2>
+                <p>시리즈를 상징하는 두 전설의 시선에서 교차하는 드라마</p>
+            </div>
+
+            <div class="character-grid">
+                <div class="character-card">
+                    <span class="character-tag">용기를 잇는 자</span>
+                    <h3>카스가 이치반 (春日 一番)</h3>
+                    <p>
+                        동성회 해체 후 성룡회에서 전직 야쿠자들의 사회 복귀를 돕고 있던 중, 생모의 생존 소식을 듣고 태평양을 건너 하와이 호놀룰루로 향합니다. 변함없는 순수한 열정과 동료들을 향한 신뢰로 위기를 헤쳐 나갑니다.
+                    </p>
+                </div>
+
+                <div class="character-card">
+                    <span class="character-tag">도지마의 용 &middot; 전설</span>
+                    <h3>키류 카즈마 (桐生 一馬)</h3>
+                    <p>
+                        과거 자신의 이름을 버리고 다이도지 일파의 에이전트로 살아가던 중 암 투병이라는 마지막 운명과 마주합니다. 남겨진 시간 동안 동료들을 위해, 그리고 자신의 지난 삶에 대한 매듭을 짓기 위해 최후의 싸움에 임합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 주요 특징 / 시스템 -->
+        <section id="features">
+            <div class="section-title">
+                <h2>주요 시스템 & 특징</h2>
+                <p>전작 대비 획기적으로 진화한 전투 시스템과 압도적인 즐길 거리</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/header.jpg" alt="새로운 라이브 커맨드 RPG 배틀">
+                    <div class="feature-text">
+                        <h3>라이브 커맨드 RPG 배틀</h3>
+                        <p>턴제 시스템 위에 실시간 위치 이동이 가능해져 적과의 거리, 주변 오브젝트(간판, 자전거 등), 동료 간의 연계 공격이 한층 전략적으로 진화했습니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/capsule_616x353.jpg" alt="하와이 호놀룰루 시티 탐험">
+                    <div class="feature-text">
+                        <h3>시리즈 최초 해외 무대: 하와이</h3>
+                        <p>요코하마 이진쵸의 3배가 넘는 거대한 맵! 트롤리 버스와 전동 휠 '세그웨이'를 타고 와이키키 해변과 번화가를 누비며 다양한 인연을 쌓을 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2072450/library_hero.jpg" alt="쿵덕쿵섬 리조트 개척">
+                    <div class="feature-text">
+                        <h3>방대한 사이드 콘텐츠: 쿵덕쿵섬</h3>
+                        <p>쓰레기로 가득 찬 무인도를 일류 리조트로 일구는 시뮬레이션 모드 '쿵덕쿵섬'과 야쿠몬을 육성하고 대결하는 '야쿠몬 배틀' 등 엄청난 볼륨을 자랑합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 하단 푸터 -->
+    <footer>
+        <p><strong>용과 같이 8 (Like a Dragon: Infinite Wealth) 소개 페이지</strong></p>
+        <p>&copy; SEGA. All rights reserved. 본 페이지는 게임 소개를 위해 제작된 데모 웹페이지입니다.</p>
+    </footer>
+
+    <!-- 히어로 캐러셀 스크립트 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.getElementById('prevSlide');
+            const nextBtn = document.getElementById('nextSlide');
+            const carousel = document.querySelector('.hero-carousel');
+
+            let currentIndex = 0;
+            let slideInterval = null;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                slides[currentIndex].classList.remove('active');
+                dots[currentIndex].classList.remove('active');
+
+                currentIndex = (index + totalSlides) % totalSlides;
+
+                slides[currentIndex].classList.add('active');
+                dots[currentIndex].classList.add('active');
+            }
+
+            function nextSlide() {
+                showSlide(currentIndex + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentIndex - 1);
+            }
+
+            function startAutoplay() {
+                stopAutoplay();
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopAutoplay() {
+                if (slideInterval) {
+                    clearInterval(slideInterval);
+                }
+            }
+
+            // 이전 / 다음 버튼 클릭 이벤트
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startAutoplay();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startAutoplay();
+            });
+
+            // 인디케이터(도트) 클릭 이벤트
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.getAttribute('data-index'), 10);
+                    showSlide(index);
+                    startAutoplay();
+                });
+            });
+
+            // 마우스 호버 시 자동 재생 일시 정지 (사용자 조작 편의성)
+            carousel.addEventListener('mouseenter', stopAutoplay);
+            carousel.addEventListener('mouseleave', startAutoplay);
+
+            // 초기 자동 넘김 시작 (5초 간격)
+            startAutoplay();
+        });
+    </script>
+</body>
+</html>

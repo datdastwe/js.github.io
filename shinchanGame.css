@@ -1,0 +1,349 @@
+:root {
+    --retro-black: #0f141c;
+    --retro-yellow: #facc15;
+    --retro-red: #ef4444;
+    --retro-blue: #3b82f6;
+    --retro-green: #22c55e;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    font-family: 'Jua', 'Noto Sans KR', sans-serif;
+    background-color: #0b0f19;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.game-wrapper {
+    width: 100%;
+    max-width: 880px;
+    background: #111827;
+    border-radius: 20px;
+    padding: 1.2rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    border: 3px solid #374151;
+}
+
+/* 상단 HUD 바 (마리오 스타일) */
+.hud-bar {
+    background: #000000;
+    border: 2px solid #374151;
+    border-radius: 12px;
+    padding: 0.6rem 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.hud-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hud-label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+.hud-val {
+    font-size: 1.25rem;
+    color: #ffffff;
+    font-weight: 800;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.coin-hud {
+    flex-direction: row;
+    gap: 0.3rem;
+}
+
+.coin-icon {
+    font-size: 1.2rem;
+    animation: spinCoin 1.2s infinite ease-in-out;
+}
+
+@keyframes spinCoin {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(0.2); }
+}
+
+.coin-hud .hud-val {
+    color: var(--retro-yellow);
+}
+
+.lives-hud .hud-val {
+    color: var(--retro-red);
+    letter-spacing: 2px;
+}
+
+/* 캔버스 컨테이너 */
+.canvas-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 850 / 480;
+    background: #5c94fc; /* 슈퍼마리오 하늘색 배경 */
+    border-radius: 14px;
+    overflow: hidden;
+    border: 3px solid #000000;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+#gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* 오버레이 화면 (시작 / 게임오버 / 클리어) */
+.overlay-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.overlay-screen.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.screen-box {
+    background: #1f2937;
+    border: 3px solid var(--retro-yellow);
+    border-radius: 18px;
+    padding: 2rem;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+    animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUp {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.title-logo .sub-tag {
+    font-size: 0.85rem;
+    color: var(--retro-yellow);
+    background: rgba(250, 204, 21, 0.15);
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 0.4rem;
+}
+
+.title-logo h1 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 0px #000, 0 0 12px rgba(239, 68, 68, 0.6);
+    letter-spacing: -0.5px;
+    margin-bottom: 0.8rem;
+}
+
+.title-logo h1 span {
+    color: var(--retro-yellow);
+}
+
+.preview-hero {
+    font-size: 2.5rem;
+    display: inline-block;
+    margin: 0.5rem 0;
+}
+
+.screen-box p.desc {
+    font-size: 0.95rem;
+    color: #d1d5db;
+    margin-bottom: 1.4rem;
+    line-height: 1.4;
+}
+
+.btn-retro {
+    background: linear-gradient(180deg, #ef4444, #dc2626);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 0.75rem 2rem;
+    font-family: 'Jua', sans-serif;
+    font-size: 1.25rem;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    transition: all 0.2s;
+    outline: none;
+}
+
+.btn-retro:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: linear-gradient(180deg, #f87171, #ef4444);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.6);
+}
+
+.btn-retro:active {
+    transform: translateY(1px);
+}
+
+.control-help {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+/* 게임오버 & 클리어 스타일 */
+.gameover-icon {
+    font-size: 3.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.screen-box h2 {
+    font-size: 2.2rem;
+    color: var(--retro-red);
+    margin-bottom: 0.3rem;
+}
+
+.clear-box h2.clear-title {
+    color: var(--retro-yellow);
+    text-shadow: 0 0 15px rgba(250, 204, 21, 0.8);
+}
+
+.score-summary {
+    background: #111827;
+    border-radius: 10px;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    justify-content: space-around;
+    margin: 1.2rem 0;
+    font-size: 0.95rem;
+    color: #9ca3af;
+}
+
+.score-summary strong {
+    color: #ffffff;
+    font-size: 1.15rem;
+}
+
+/* 키보드 태그 */
+kbd {
+    background: #374151;
+    color: #f3f4f6;
+    border: 1px solid #4b5563;
+    border-radius: 4px;
+    padding: 0.15rem 0.45rem;
+    font-size: 0.75rem;
+    font-family: inherit;
+    box-shadow: 0 2px 0 #1f2937;
+}
+
+/* 모바일 가상 컨트롤러 */
+.mobile-controls {
+    display: none;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+}
+
+.touch-btn {
+    background: #1f2937;
+    border: 2px solid #374151;
+    color: #ffffff;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    font-family: 'Jua', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    touch-action: manipulation;
+}
+
+.touch-btn:active {
+    background: var(--retro-yellow);
+    color: #000000;
+    transform: scale(0.95);
+}
+
+.d-pad {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.action-pad .btn-action {
+    background: var(--retro-red);
+    border-color: #fca5a5;
+    width: 75px;
+    height: 75px;
+    font-size: 1.1rem;
+}
+
+.action-pad .btn-action:active {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+/* 조작 안내 푸터 */
+.controls-guide {
+    margin-top: 1rem;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 0.8rem 1.2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: #d1d5db;
+}
+
+@media (max-width: 768px) {
+    .game-wrapper {
+        padding: 0.8rem;
+    }
+    .hud-bar {
+        padding: 0.5rem 0.8rem;
+    }
+    .hud-val {
+        font-size: 1rem;
+    }
+    .mobile-controls {
+        display: flex;
+    }
+    .controls-guide {
+        grid-template-columns: 1fr;
+        font-size: 0.78rem;
+    }
+}
+

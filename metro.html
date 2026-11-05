@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울교통공사 수도권 전철 실시간 노선도 (SMSS)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="metro.css">
+</head>
+<body>
+
+    <!-- 최상단 글로벌 헤더 -->
+    <header class="metro-header">
+        <div class="header-left">
+            <div class="logo-badge">SEOUL METRO</div>
+            <h1>수도권 전철 실시간 운행정보 <span>SMSS 전 노선도</span></h1>
+        </div>
+        <div class="header-right">
+            <div class="live-clock" id="live-clock">2026. 11. 03. 15:45:00</div>
+            <div class="refresh-indicator">
+                <span class="refresh-dot"></span>
+                <span id="refresh-timer">10초 후 갱신</span>
+                <button id="btn-manual-refresh" class="btn-icon" title="즉시 새로고침">↻</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 노선 선택 탭 바 (기본 선택: 1호선) -->
+    <nav class="line-selector-bar">
+        <div class="line-tabs-header">
+            <span class="selector-title">🔍 노선 선택:</span>
+            <span class="selector-hint">(상단 버튼으로 호선을 전환하면 해당 호선만 메인 지도에 단독으로 표시됩니다)</span>
+        </div>
+        <div class="line-tabs" id="line-tabs">
+            <button class="line-tab active" data-line="1">
+                <span class="line-badge line-1">1</span> 1호선
+            </button>
+            <button class="line-tab" data-line="2">
+                <span class="line-badge line-2">2</span> 2호선
+            </button>
+            <button class="line-tab" data-line="3">
+                <span class="line-badge line-3">3</span> 3호선
+            </button>
+            <button class="line-tab" data-line="4">
+                <span class="line-badge line-4">4</span> 4호선
+            </button>
+            <button class="line-tab" data-line="5">
+                <span class="line-badge line-5">5</span> 5호선
+            </button>
+            <button class="line-tab" data-line="6">
+                <span class="line-badge line-6">6</span> 6호선
+            </button>
+            <button class="line-tab" data-line="7">
+                <span class="line-badge line-7">7</span> 7호선
+            </button>
+            <button class="line-tab" data-line="8">
+                <span class="line-badge line-8">8</span> 8호선
+            </button>
+        </div>
+    </nav>
+
+    <!-- 컨트롤 & 검색 패널 -->
+    <div class="control-panel">
+        <div class="control-container">
+            <!-- 역 검색 -->
+            <div class="search-box">
+                <input type="text" id="station-search" placeholder="전체 역 검색 (예: 종로3가, 시청, 서울역, 신도림)..." autocomplete="off">
+                <button id="btn-search-clear" class="btn-clear">&times;</button>
+            </div>
+
+            <!-- 현재 선택 호선 상태 안내 뱃지 -->
+            <div class="selected-line-banner" id="selected-line-banner">
+                <span class="badge-lg" id="banner-badge">1호선</span>
+                <div class="banner-info">
+                    <strong id="banner-title">1호선 전 구간 실시간 열차 추적 중</strong>
+                    <span id="banner-sub">상행(소요산) ⟷ 하행(인천·신창)</span>
+                </div>
+            </div>
+
+            <!-- 실시간 요약 카운터 -->
+            <div class="stats-summary">
+                <span class="stat-item">선택 호선 운행 열차 <strong id="total-train-count">0</strong>편</span>
+                <span class="stat-divider">|</span>
+                <span class="stat-item up">상행 <strong id="up-train-count">0</strong></span>
+                <span class="stat-divider">|</span>
+                <span class="stat-item down">하행 <strong id="down-train-count">0</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 범례 안내 바 -->
+    <div class="legend-bar">
+        <div class="legend-container">
+            <span class="legend-title">노선도 안내:</span>
+            <span class="legend-chip highlight-legend"><span class="chip-line active-line"></span> 선택 호선 (단독 표시)</span>
+            <span class="legend-chip"><span class="chip-dot train-dot up"></span> 상행 열차</span>
+            <span class="legend-chip"><span class="chip-dot train-dot down"></span> 하행 열차</span>
+            <span class="legend-chip"><span class="chip-dot state-enter"></span> 진입</span>
+            <span class="legend-chip"><span class="chip-dot state-arrive"></span> 도착</span>
+            <span class="legend-chip"><span class="chip-dot state-depart"></span> 출발</span>
+            <span class="legend-chip"><span class="chip-dot transfer-dot"></span> 환승역</span>
+        </div>
+    </div>
+
+    <!-- 메인 레이아웃 (좌: 종합 노선도 지도 / 우: 선택 호선 실시간 상세 피드) -->
+    <main class="metro-main-layout">
+        
+        <!-- 좌측 카드: 1~8호선 전체 정차역 및 실시간 열차 위치 SVG 노선도 -->
+        <section class="map-view-card">
+            <div class="card-header">
+                <div class="header-title-wrap">
+                    <h2>🗺️ 수도권 전철 전체 노선도 (SMSS 열차 실시간 위치)</h2>
+                    <span class="map-hint">마우스 휠로 확대/축소하고, 드래그하여 지도를 이동할 수 있습니다.</span>
+                </div>
+                <!-- 줌/팬 컨트롤러 -->
+                <div class="map-zoom-controls">
+                    <button id="btn-zoom-in" class="zoom-btn" title="확대">+</button>
+                    <button id="btn-zoom-reset" class="zoom-btn reset" title="원래 크기">100%</button>
+                    <button id="btn-zoom-out" class="zoom-btn" title="축소">-</button>
+                </div>
+            </div>
+            
+            <div class="svg-map-wrapper" id="svg-map-wrapper">
+                <svg id="metro-svg-map" viewBox="0 0 3600 2900" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <!-- 선택된 노선 글로우 필터 -->
+                        <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="currentColor" flood-opacity="0.9"/>
+                        </filter>
+                    </defs>
+                    <g id="svg-root-layer">
+                        <g id="svg-grid-layer"></g>
+                        <g id="svg-lines-layer"></g>
+                        <g id="svg-stations-layer"></g>
+                        <g id="svg-trains-layer"></g>
+                        <g id="svg-labels-layer"></g>
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- 우측 카드: 선택된 호선 실시간 정차역 & 열차 피드 -->
+        <aside class="detail-feed-card">
+            <div class="card-header">
+                <h3 id="panel-line-title">1호선 실시간 운행 현황</h3>
+                <span class="track-indicator" id="panel-refresh-time">실시간 연동</span>
+            </div>
+
+            <div class="track-legend-mini">
+                <span class="mini-dir up">▲ 상행(외선)</span>
+                <span class="mini-station">정차역</span>
+                <span class="mini-dir down">하행(내선) ▼</span>
+            </div>
+
+            <!-- 선택 호선 열차 리스트 스크롤 영역 -->
+            <div class="active-line-track" id="active-line-track">
+                <!-- 선택된 호선의 모든 역과 열차가 렌더링됩니다 -->
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- 열차 상세 정보 모달 -->
+    <div id="train-modal" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-tag" id="modal-train-type">일반</span>
+                    <h2 id="modal-train-title">1042 열차</h2>
+                </div>
+                <button class="modal-close" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-row">
+                    <span class="info-label">행선지</span>
+                    <strong class="info-val" id="modal-destination">소요산행</strong>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">현재 위치</span>
+                    <strong class="info-val" id="modal-curr-station">종로3가역 (도착)</strong>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">운행 방향</span>
+                    <span class="info-val" id="modal-direction">상행</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">운행 상태</span>
+                    <span class="info-val" id="modal-status-text">정상 운행 (정시)</span>
+                </div>
+
+                <!-- 칸별 혼잡도 시각화 -->
+                <div class="congestion-section">
+                    <h4>열차 칸별 실시간 혼잡도 (1~10호차)</h4>
+                    <div class="congestion-cars" id="congestion-cars"></div>
+                    <div class="congestion-legend">
+                        <span class="c-leg smooth">여유 (0~34%)</span>
+                        <span class="c-leg normal">보통 (35~70%)</span>
+                        <span class="c-leg crowded">혼잡 (71%~)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 역별 도착 정보 안내 모달 -->
+    <div id="station-modal" class="modal-backdrop">
+        <div class="modal-card station-modal-card">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-tag" id="st-modal-line">1호선</span>
+                    <h2 id="st-modal-name">종로3가역</h2>
+                </div>
+                <button class="modal-close" id="st-modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="arrival-tables">
+                    <div class="arrival-col">
+                        <h4 id="st-up-header">▲ 상행(외선) 실시간 도착 예정</h4>
+                        <ul class="arrival-list" id="st-up-list"></ul>
+                    </div>
+                    <div class="arrival-col">
+                        <h4 id="st-down-header">▼ 하행(내선) 실시간 도착 예정</h4>
+                        <ul class="arrival-list" id="st-down-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="metro.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사과게임 - 숫자 10 만들기 (Make 10!)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="appleGames.css">
+</head>
+<body>
+
+    <div class="game-wrapper">
+        <!-- 게임 헤더 -->
+        <header class="game-header">
+            <div class="title-area">
+                <h1>🍎 사과게임 <span>Make 10!</span></h1>
+                <p class="subtitle">드래그한 사과들의 숫자를 합쳐서 <strong>10</strong>을 만들어보세요!</p>
+            </div>
+
+            <!-- 난이도 선택 영역 -->
+            <div class="difficulty-bar">
+                <span class="diff-label">난이도:</span>
+                <div class="diff-buttons">
+                    <button type="button" class="diff-btn active" data-difficulty="easy">쉬움 🍏</button>
+                    <button type="button" class="diff-btn" data-difficulty="normal">보통 🍎</button>
+                    <button type="button" class="diff-btn" data-difficulty="hard">어려움 🔥</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 게임 상태 대시보드 -->
+        <section class="dashboard">
+            <div class="stat-card">
+                <span class="stat-name">점수</span>
+                <span class="stat-value" id="score-display">0</span>
+            </div>
+            <div class="stat-card timer-card">
+                <span class="stat-name">남은 시간</span>
+                <span class="stat-value" id="timer-display">150</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-name">남은 사과</span>
+                <span class="stat-value" id="remains-display">170</span>
+            </div>
+            <div class="action-card">
+                <button id="btn-restart" class="btn-control">다시 시작 🔄</button>
+            </div>
+        </section>
+
+        <!-- 사과 게임 보드 영역 -->
+        <main class="board-container" id="board-container">
+            <div id="game-board" class="game-board"></div>
+            <!-- 마우스 드래그 선택 박스 -->
+            <div id="selection-box" class="selection-box"></div>
+            <!-- 실시간 합계 말풍선 -->
+            <div id="sum-tooltip" class="sum-tooltip">합: 0</div>
+        </main>
+
+        <!-- 게임 설명 가이드 -->
+        <footer class="game-guide">
+            <h3>📖 게임 방법</h3>
+            <ul>
+                <li>마우스를 드래그하여 상자를 만들어 사과들을 감싸세요.</li>
+                <li>선택된 사과들의 숫자 합이 <strong>정확히 10</strong>이 되면 사과들이 사라지고 점수를 얻습니다!</li>
+                <li><strong>쉬움 모드</strong>: 10을 만들기 쉽도록 인접한 곳에 짝궁 숫자(5+5, 1+9, 2+8, 3+7, 4+6)가 훨씬 많이 배치됩니다.</li>
+                <li><strong>보통 모드</strong>: 1부터 9까지의 숫자가 무작위로 등장합니다.</li>
+                <li><strong>어려움 모드</strong>: 숫자가 흩어져 있으며 제한 시간이 짧아집니다.</li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- 게임 종료 / 결과 모달 -->
+    <div id="game-modal" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-icon" id="modal-icon">🎉</div>
+            <h2 id="modal-title">게임 종료!</h2>
+            <p id="modal-desc">시간이 종료되었습니다.</p>
+            <div class="modal-stats">
+                <div class="m-stat">
+                    <span>최종 점수</span>
+                    <strong id="final-score">0점</strong>
+                </div>
+                <div class="m-stat">
+                    <span>제거한 사과</span>
+                    <strong id="final-eaten">0개</strong>
+                </div>
+            </div>
+            <button id="modal-restart-btn" class="modal-btn">다시 도전하기</button>
+        </div>
+    </div>
+
+    <script src="appleGame.js"></script>
+</body>
+</html>
+

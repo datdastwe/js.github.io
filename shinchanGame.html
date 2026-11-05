@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>짱구의 슈퍼 모험 - 동전 먹기 마리오 게임</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shinchanGame.css">
+</head>
+<body>
+
+    <div class="game-wrapper">
+        <!-- 상단 헤더 & HUD -->
+        <header class="hud-bar">
+            <div class="hud-item player-hud">
+                <span class="hud-label">SHINCHAN</span>
+                <span class="hud-val" id="hud-score">000000</span>
+            </div>
+            <div class="hud-item coin-hud">
+                <span class="coin-icon">🪙</span>
+                <span class="hud-val" id="hud-coins">&times; 00</span>
+            </div>
+            <div class="hud-item world-hud">
+                <span class="hud-label">STAGE</span>
+                <span class="hud-val">1-1</span>
+            </div>
+            <div class="hud-item lives-hud">
+                <span class="hud-label">LIFE</span>
+                <span class="hud-val" id="hud-lives">♥♥♥</span>
+            </div>
+            <div class="hud-item time-hud">
+                <span class="hud-label">TIME</span>
+                <span class="hud-val" id="hud-time">300</span>
+            </div>
+        </header>
+
+        <!-- 게임 메인 캔버스 영역 -->
+        <div class="canvas-container" id="canvas-container">
+            <canvas id="gameCanvas" width="850" height="480"></canvas>
+
+            <!-- 시작 오버레이 -->
+            <div id="start-screen" class="overlay-screen active">
+                <div class="screen-box">
+                    <div class="title-logo">
+                        <span class="sub-tag">떡잎마을 슈퍼 점프 대작전</span>
+                        <h1>짱구의 동전 모험 <span>★</span></h1>
+                    </div>
+                    <div class="shinchan-hero-preview">
+                        <span class="preview-hero">🏃‍♂️💨 🪙 🍫</span>
+                    </div>
+                    <p class="desc">앞으로 달리며 황금 동전과 초코비를 모으고, 흰둥이를 구출하세요!</p>
+                    <button id="btn-start" class="btn-retro">게임 시작 (ENTER)</button>
+                    <div class="control-help">
+                        <kbd>←</kbd> <kbd>→</kbd> 좌우 이동 &middot; <kbd>Space</kbd> / <kbd>↑</kbd> 점프
+                    </div>
+                </div>
+            </div>
+
+            <!-- 게임 오버 오버레이 -->
+            <div id="gameover-screen" class="overlay-screen">
+                <div class="screen-box">
+                    <div class="gameover-icon">😭</div>
+                    <h2>GAME OVER</h2>
+                    <p>으앙~ 엄마한테 혼나겠다!</p>
+                    <div class="score-summary">
+                        <span>획득 점수: <strong id="over-score">0</strong></span>
+                        <span>모은 동전: <strong id="over-coins">0</strong>개</span>
+                    </div>
+                    <button id="btn-restart" class="btn-retro">다시 도전하기</button>
+                </div>
+            </div>
+
+            <!-- 스테이지 클리어 오버레이 -->
+            <div id="clear-screen" class="overlay-screen">
+                <div class="screen-box clear-box">
+                    <div class="gameover-icon">🐶🎉</div>
+                    <h2 class="clear-title">STAGE CLEAR!</h2>
+                    <p class="clear-msg">흰둥이를 무사히 만났어요! 액션가면 짱구 최고!</p>
+                    <div class="score-summary">
+                        <span>최종 점수: <strong id="clear-score">0</strong></span>
+                        <span>남은 시간 보너스: <strong id="clear-bonus">0</strong></span>
+                    </div>
+                    <button id="btn-clear-restart" class="btn-retro">한 번 더 플레이</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 모바일 가상 조이패드 컨트롤러 -->
+        <div class="mobile-controls">
+            <div class="d-pad">
+                <button id="btn-left" class="touch-btn">◀</button>
+                <button id="btn-right" class="touch-btn">▶</button>
+            </div>
+            <div class="action-pad">
+                <button id="btn-jump" class="touch-btn btn-action">JUMP</button>
+            </div>
+        </div>
+
+        <!-- 조작 안내 풋터 -->
+        <footer class="controls-guide">
+            <div class="guide-item"><strong>이동</strong>: 방향키 <kbd>←</kbd> <kbd>→</kbd> 또는 <kbd>A</kbd>, <kbd>D</kbd></div>
+            <div class="guide-item"><strong>점프</strong>: <kbd>Space</kbd> 또는 <kbd>↑</kbd>, <kbd>W</kbd> (길게 누르면 높은 점프!)</div>
+            <div class="guide-item"><strong>물음표 블록</strong>: 아래에서 머리로 들이받으면 동전이나 초코비 획득</div>
+            <div class="guide-item"><strong>악어 악당</strong>: 마리오처럼 머리 위로 밟아서 처치!</div>
+        </footer>
+    </div>
+
+    <script src="shinchanGame.js"></script>
+</body>
+</html>
+
